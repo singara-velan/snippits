@@ -1,0 +1,8 @@
+<form [formGroup]="sampleForm" >
+    <input type="checkbox" formControlName = "hide" (change)="resetValidators()" />Hide Last Name
+    <div><span>First Name</span><input type="text" formControlName="fName"/></div>
+    <div *ngIf="!sampleForm.controls.hide.value"><span>Last Name</span><input type="text" formControlName="lName"/></div>
+    <div><input type="submit" value="submit"/></div>
+    <p>Form value: {{ sampleForm.value | json }}</p>
+    <p>Form value: {{ sampleForm.status | json }}</p>
+</form>
