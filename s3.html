@@ -1,0 +1,45 @@
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.141.0.min.js">
+</script>
+<script type="text/javascript">
+    AWS.config.region = 'us-east-1'; // Region
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:22f6aa5c-de5c-430e-95ea-57a559bc0f2f',
+    });
+    var bucket = new AWS.S3({
+        params: {
+            Bucket: 'fiapps',
+        },
+        region : 'ca-central-1'
+    });
+
+
+
+    function upload() {
+        var fileChooser = document.getElementById('file-chooser');
+        var button = document.getElementById('upload-button');
+        var results = document.getElementById('results');
+        var file = fileChooser.files[0];
+        console.log(file.name);
+
+        if (file) {
+            results.innerHTML = '';
+            var params = {
+                Key: file.name,
+                ContentType: file.type,
+                Body: file
+            };
+            bucket.upload(params, function (err, data) {
+                results.innerHTML = err ? 'ERROR!' : 'UPLOADED.';
+            });
+        } else {
+            results.innerHTML = 'Nothing to upload.';
+        }
+    }
+
+</script>
+
+<body>
+    <input type="file" id="file-chooser" />
+    <input type="button" onclick="upload()" value="Upload to S3">
+    <div id="results"></div>
+</body>
